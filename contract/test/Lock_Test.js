@@ -20,9 +20,7 @@ describe("Lock", () => {
         
         const [deployer, otherAccount] = await hre.ethers.getSigners()
 
-        const deployerBalanceBefore = await hre.ethers.provider.getBalance(deployer.address)
-
-        return { lock, deployer, otherAccount, unlockTime, lockedAmount, deployerBalanceBefore }
+        return { lock, deployer, otherAccount, unlockTime, lockedAmount }
     }
 
 
@@ -106,7 +104,7 @@ describe("Lock", () => {
         })
 
         it("Shouldn't fail if the unlock time has arrived and the owner calls it", async () => {
-            const { lock, deployer, unlockTime} = await loadFixture(deployLockFixture)
+            const { lock, deployer, unlockTime } = await loadFixture(deployLockFixture)
 
             await time.increaseTo(unlockTime)
             
@@ -114,7 +112,7 @@ describe("Lock", () => {
         })
 
         it("Should transfer lockedAmount to owner", async () => {
-            const { lock, unlockTime, deployer, lockedAmount} = await loadFixture(deployLockFixture)
+            const { lock, unlockTime, deployer, lockedAmount } = await loadFixture(deployLockFixture)
             
             await time.increaseTo(unlockTime)
 
@@ -122,7 +120,7 @@ describe("Lock", () => {
         })
 
         it("Should emit Withdrawal event", async () => {
-            const { lock, unlockTime, lockedAmount, deployer} = await loadFixture(deployLockFixture)
+            const { lock, unlockTime, lockedAmount, deployer } = await loadFixture(deployLockFixture)
 
             await time.increaseTo(unlockTime)
 
